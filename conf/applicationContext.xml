@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+		<!-- 开启注解扫描 -->
+		<context:component-scan base-package="cn.edu.jxufe.czk">
+			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+			<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+		</context:component-scan>
+		
+		<!-- 基于注解开发开启aop自动代理-->
+		<aop:aspectj-autoproxy/>
+		
+		<!-- 引入外部化配置文件 -->
+		<context:property-placeholder location="classpath:db.properties"/>
+		<!-- 配置数据源 -->
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+			<property name="jdbcUrl" value="${jdbc.url}"></property>
+			<property name="driverClass" value="${jdbc.driverClass}"></property>
+			<property name="user" value="${jdbc.userName}"></property>
+			<property name="password" value="${jdbc.passwd}"></property>
+		</bean>
+		
+		<!-- 创建事物管理器 -->
+		<bean id = "dataSourceTransactionManager" 
+				class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		<!-- 基于注解使用事物,需要开启事物注解. -->
+		<tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+
+		<!-- *************spring与mybatis的整合 ***************-->
+		
+		<!-- 配置sessionFactory -->
+		<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<!-- 注入数据源 -->
+			<property name="dataSource" ref="dataSource"></property>
+			<!-- 指定MyBatis的全局配置文件 -->
+			<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		</bean>
+		
+		<!-- 扫描所有的mapper接口，生成代理实现类，交给IOC容器管理 -->
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<property name="basePackage" value="cn.edu.jxufe.czk.mapper"></property>
+		</bean>
+		
+		<!-- 配置mapper代理对象，交给spring Ioc容器 -->
+			<!-- 扫描mapper接口的包，生成代理对象交给spring Ioc去管理 
+			<mybatis-spring:scan base-package="cn.edu.jxufe.czk.mapper"/>
+		-->
+</beans>

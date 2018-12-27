@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 导入外部资源文件 
+	<properties resource="db.properties"></properties>
+	-->	
+	<!-- 对mybatis的一些设置 -->
+	<settings>
+		<!-- 自动映射下划线到驼峰命名    DB: last_name  autoMapping  lastName  	-->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 开启自动映射，只是局部映射，从数据库映射到java对象 -->
+		<setting name="autoMappingBehavior" value="PARTIAL"/>
+		<!-- 开启延迟加载 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 指定加载的属性是全部加载还是延迟加载 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 开启二级缓存 
+			<setting name="cacheEnabled" value="true"/>
+		-->
+	</settings>
+	
+	 <plugins>
+	  	<!-- 注册分页插件 -->
+	  	<!-- mybatis有四大处理器分别为sql处理器，sql优化器，sql编译器sql执行器
+	  		这里是拦截了sql的处理
+	  	 -->
+	  	<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+	 </plugins>
+	
+	<!-- mybatis环境的配置 
+	<environments default="develop">
+		<environment id="develop">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driverClass}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.userName}" />
+				<property name="password" value="${jdbc.passwd}" />
+			</dataSource>
+		</environment>
+	</environments>
+	-->	
+	
+	<!-- mybatis支持很多种数据库
+		可以根据不同的数据库（DB_VENDOR）执行不同的sql语句
+		可以在mapper.xml的每一条语句中加上对应的databaseidprovider即可
+		 -->
+	<databaseIdProvider type="DB_VENDOR">
+		<property name="MYSQL" value="mysql"/>
+		<property name="ORACLE" value="oracle"/>
+		<property name="SQL Server" value="sqlserver"/>
+	</databaseIdProvider>
+	
+	<!-- 如果mapper.xml在mybatis中配置
+		那么mapper.xml不能随意放置，必须防止在与mapper接口相同的包下
+		如果mapper.xml的配置是在spring中配置的，那么可以放置在任意的包下 -->
+	<mappers>
+		<package name="cn.edu.jxufe.czk.mapper"/>
+	</mappers>
+	
+</configuration>
