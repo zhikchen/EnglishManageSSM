@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService{
 					readOnly=true,
 					timeout=3)
 	public User queryUserById(String id) {
+		int a = 1/Integer.parseInt(id);
 		return userMapper.selectUserById(id);
 	}
 

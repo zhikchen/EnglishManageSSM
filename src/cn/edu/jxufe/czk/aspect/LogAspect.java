@@ -21,8 +21,8 @@ public class LogAspect {
 	//这里使用slf4j，这也是spring内置的日志工具。用法和log4j差不多
 	private final static Logger logger = LoggerFactory.getLogger(LogAspect.class);
 	
-	@Pointcut(value="public * cn.edu.jxufe.czk.controller.*.*(..)")
-	public void pointcut() {}
+	@Pointcut("execution(* cn.edu.jxufe.czk.controller.*.*(..))")
+	public void log() {}
 	
 	@Before(value = "log()")
 	public void logbefore(JoinPoint joinPoint) {

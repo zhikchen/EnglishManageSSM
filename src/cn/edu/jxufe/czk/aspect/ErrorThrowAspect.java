@@ -1,5 +1,6 @@
 package cn.edu.jxufe.czk.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
@@ -19,11 +20,11 @@ public class ErrorThrowAspect {
 
 	private final static Logger logger = LoggerFactory.getLogger(ErrorThrowAspect.class);
 	
-	@Pointcut(value="public * cn.edu.jxufe.czk.serviceImpl.*.*(..)")
-	public void pointcut() {}
+	@Pointcut("execution(* cn.edu.jxufe.czk.serviceImpl.*.*(..))")
+	public void errorThrowAspectPointcut() {}
 	
 	//针对执行方法过程中抛出错误的情况
-	@Around(value = "pointcut()")
+	@Around(value = "errorThrowAspectPointcut()")
 	public Object catchException(ProceedingJoinPoint pJoinPoint) throws Exception {
 		Object result = null;
 		try {
@@ -48,9 +49,9 @@ public class ErrorThrowAspect {
 	
 	
 	//针对返回值内容做判断：比如查询结果为null，或者添加结果为false，皆应该抛出异常
-	@AfterReturning(value="pointcut()", returning="object")
-	public void returnCheck(ProceedingJoinPoint pJoinPoint,Object object) {
-		String methodName = pJoinPoint.getSignature().getName().toLowerCase();
+	@AfterReturning(value="errorThrowAspectPointcut()", returning="object")
+	public void returnCheck(JoinPoint joinpoint,Object object) {
+		String methodName = joinpoint.getSignature().getName().toLowerCase();
 		if(object!=null){ 
 			if(object instanceof Boolean) {
 			    boolean retValue = ((Boolean) object).booleanValue();

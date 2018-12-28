@@ -30,9 +30,21 @@
 	<select id="selectAllUser" resultType="cn.edu.jxufe.czk.entity.User">
 		select * from User ;
 	</select>
+	
+	<!-- List<Map<String,Object>> selectAllUserMap(); -->
+	<select id="selectAllUserMap" resultType="hashmap">
+		select * from User ;
+	</select>
+	
 
 	<!-- User selectUserById(String id); -->
 	<select id="selectUserById" resultType="cn.edu.jxufe.czk.entity.User">
+		select * from User where id = #{id};
+	</select>
+	
+	
+	<!-- HashMap selectUserByIdMap(String id); -->
+	<select id="selectUserByIdMap" resultType="hashmap">
 		select * from User where id = #{id};
 	</select>
 </mapper>

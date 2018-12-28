@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.edu.jxufe.czk.entity.JsonResult;
 import cn.edu.jxufe.czk.entity.User;
 import cn.edu.jxufe.czk.service.UserService;
 
@@ -23,8 +24,8 @@ public class UserController{
 	
 	@ResponseBody
 	@RequestMapping(value="/users",method=RequestMethod.GET)
-	public Collection<User> queryAllUser() {
-		return userServiceImpl.queryAllUser();
+	public JsonResult<List<User>> queryAllUser() {
+		return new JsonResult(userServiceImpl.queryAllUser());
 	}
 	
 	
