@@ -9,6 +9,19 @@ public class User {
 	private String nickName;
 	private String mail;
 	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public User(Integer id, String userName, String passwd, char sex, String nickName, String mail) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.passwd = passwd;
+		this.sex = sex;
+		this.nickName = nickName;
+		this.mail = mail;
+	}
 	public Integer getId() {
 		return id;
 	}

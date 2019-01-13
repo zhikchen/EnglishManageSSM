@@ -10,4 +10,6 @@ public interface UserService {
 	List<User> queryAllUser();
 	
 	User queryUserById(String id);
+
+	int insertMutiUsers(List<User> list);
 }

@@ -12,6 +12,19 @@
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 	
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<bean class="cn.edu.jxufe.czk.interceptor.loginInterceptor"></bean>
+		<!-- 
+		拦截器更丰富的配法:
+		<mvc:interceptor>
+			<mvc:mapping path="/emps"/>  只对指定的请求起拦截作用
+			<mvc:exclude-mapping path="/emps"/>  对除了指定的请求之外的起拦截作用
+			<bean class="MyThirdInterceptor"></bean>
+		</mvc:interceptor> 
+		-->
+	</mvc:interceptors>
+	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"></property>

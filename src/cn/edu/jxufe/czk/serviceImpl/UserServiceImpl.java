@@ -53,4 +53,9 @@ public class UserServiceImpl implements UserService{
 		return userMapper.selectUserById(id);
 	}
 
+	@Override
+	public int insertMutiUsers(List<User> list) {
+		return userMapper.insertMutiUser(list);
+	}
+
 }

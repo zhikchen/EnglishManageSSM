@@ -47,4 +47,13 @@
 	<select id="selectUserByIdMap" resultType="hashmap">
 		select * from User where id = #{id};
 	</select>
+	
+	<insert id="insertMutiUser">
+		insert into User(username,passwd,sex,nickName,mail)
+		<foreach collection="users" separator="," item="user" open="values" close=";">
+		(#{user.userName},#{user.passwd},#{user.sex},#{user.nickName},#{user.mail})
+		</foreach>
+		
+	</insert>
+	
 </mapper>
